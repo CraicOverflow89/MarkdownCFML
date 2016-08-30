@@ -1,7 +1,19 @@
 component name = "markdown" output = "false"
 {
 
-	public string function markdown(required array input)
+	public function markdown(required string path)
+	{
+		// Convert File to Array<String>
+		var result = []; 
+		var file = fileOpen(arguments.path, "read");
+		while(!fileIsEOF(file)) {arrayAppend(result, fileReadLine(file));}
+		fileClose(file);
+
+		// Render Markdown
+		return markdownRender(result);
+	}
+
+	private string function markdownRender(required array input)
 	{
 		var output = [];
 		var currentLine = [];
